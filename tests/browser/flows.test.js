@@ -47,7 +47,7 @@ async function audioResults(page,type='tws'){
  await page.getByRole('button',{name:'Lihat rekomendasi',exact:true}).click();
  await page.locator('.product-card').first().waitFor();
 }
-for(const width of [320,360,390,768,1280]){
+for(const width of [320,360,390,768,1280,1440]){
  test('All routes fit viewport '+width,{timeout:120000},async()=>{
   await withPage(width,async page=>{
    const routes=['rekomendasi','rekomendasi/audio','rekomendasi/smartphone-tablet','rekomendasi/komponen-pc',phone,'builder','panduan','metode','data'];
@@ -62,7 +62,7 @@ for(const width of [320,360,390,768,1280]){
    await visit(page);
    await page.waitForFunction(()=>!document.querySelector('.availability')?.textContent.includes('Memuat'));
    await page.screenshot({path:'test-results/home-'+width+'.png',fullPage:true});
-   if(width===390||width===1280)await emitVisual(page,'home-'+width);
+   if(width===390||width===1280||width===1440)await emitVisual(page,'home-'+width);
    await visit(page,phone);
    await page.getByRole('button',{name:/Premium/}).click();
    await page.getByRole('checkbox',{name:/Gaming & performa/}).check();
