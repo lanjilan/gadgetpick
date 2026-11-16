@@ -1,0 +1,59 @@
+import {stepsFor,stepErrors,validateStep,isComplete,answerSummary,mapRecommendations,cleanAnswers} from './needs.js';
+import {audioHelp} from './help.js';
+import {icon} from './art.js';
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=x=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(x);
+export function newProfile(){return {answers:{},step:0,confirmed:false,editing:false};}
+function questionHTML(q,answers,primary=false){
+  const answer=answers[q.id],hint=`hint-${q.id}`,error=`error-${q.id}`,described=`${hint} ${error}`;
+  const heading=primary?`<h1 id="guide-title" tabindex="-1">${esc(q.label)}</h1>`:esc(q.label);
+  let control;
+  if(q.kind==='budget')control=`<label class="guide-budget"><span>Rp</span><input name="budget" id="guide-budget" aria-label="Budget maksimal dalam rupiah" aria-describedby="${described}" type="number" inputmode="numeric" min="1" max="100000000" step="1" value="${esc(answer||'')}" placeholder="Contoh: 1000000" required></label><div class="guide-budget-presets">${[300000,500000,1000000,2000000,5000000].map(n=>`<button type="button" data-budget="${n}">${money(n)}</button>`).join('')}</div><p class="guide-price-help">Belum termasuk ongkir atau adaptor tambahan. Harga akhir diperiksa di toko.</p>`;
+  else if(q.kind==='text')control=`<label class="visually-hidden" for="guide-${q.id}">${esc(q.label)}</label><input class="control guide-text" id="guide-${q.id}" name="${q.id}" maxlength="200" aria-describedby="${described}" placeholder="${esc(q.placeholder)}" value="${esc(answer||'')}">`;
+  else control=`<div class="guide-options ${q.options.every(o=>!o.note)?'compact-options':''}">${q.options.map((o,i)=>`<label class="guide-option"><input type="radio" id="guide-${q.id}-${i}" name="${q.id}" value="${o.value}" aria-describedby="${described}" ${answer===o.value?'checked':''} ${q.optional?'':'required'}><span><strong>${esc(o.label)}</strong>${o.note?`<small>${esc(o.note)}</small>`:''}</span></label>`).join('')}</div>`;
+  const field=`<fieldset class="guide-question" id="question-${q.id}" aria-describedby="${described}"><legend>${heading}</legend><p class="question-helper" id="${hint}">${esc(q.helper||'Pilih jawaban yang paling mendekati kebutuhanmu.')}</p>${control}<p class="error-note" id="${error}" hidden></p></fieldset>`;
+  return q.advanced?`<details class="optional-question" ${answer?'open':''}><summary>${esc(q.label)}</summary>${field}</details>`:field;
+}
+export function renderIntake(main,category,profile,callbacks){
+  const steps=stepsFor(category,profile.answers),review=profile.step>=steps.length,step=steps[profile.step];
+  const single=!review&&step.questions.length===1&&!step.questions[0].advanced;
+  const change=index=>{callbacks.onDataChange?.();callbacks.onStepChange(index);};
+  main.innerHTML=`<div class="catalog-breadcrumb"><a href="#rekomendasi">← Ganti kategori</a><span aria-hidden="true">/</span><span>${esc(category)}</span></div>
+  <section class="guide-layout"><aside class="guide-context guide-in-progress"><div class="eyebrow">PILIH SESUAI KEBUTUHAN</div><h2>${esc(category==='Audio'?'Audio personal':category)}</h2><p>Kami bantu menyaring pilihan. Kamu tetap memutuskan setelah memahami kelebihan, kekurangan, dan sumbernya.</p><div class="guide-steps" aria-label="Tahap pemetaan">${steps.map((s,i)=>`<div class="guide-step ${i===profile.step?'current':i<profile.step?'done':''}" ${i===profile.step?'aria-current="step"':''}><span>${i<profile.step?icon('check',12):i+1}</span>${esc(s.label)}</div>`).join('')}</div><p class="guide-privacy">${callbacks.storageAvailable?'Jawaban disimpan di tab ini, termasuk saat halaman dimuat ulang.':'Jawaban hanya tersedia selama halaman ini terbuka.'} Tidak dikirim ke server.</p><button type="button" class="reset" id="restart-needs">Hapus jawaban dan mulai ulang</button></aside>
+  <div class="guide-panel"><div class="guide-progress"><span>${esc(category)} · ${review?'Periksa jawaban':`Tahap ${profile.step+1} dari ${steps.length}: ${esc(step.label)}`}</span><progress max="${steps.length}" value="${review?steps.length:profile.step+1}" aria-label="Kemajuan pemetaan"></progress></div>
+  ${profile.step>0?'<button type="button" class="text-link" id="guide-previous">← Tahap sebelumnya</button>':''}
+  ${profile.restored?'<p class="demo-notice" role="status">Jawaban terakhir dipulihkan di tab ini. Kamu bisa melanjutkan atau mengubahnya.</p>':''}
+  ${review?`<h1 id="guide-title" tabindex="-1">Sudah sesuai kebutuhanmu?</h1><div class="needs-review">${answerSummary(category,profile.answers).map(a=>`<div><span>${esc(a.label)}</span><strong>${esc(a.kind==='budget'?money(a.value):a.value)}</strong><button type="button" data-edit-step="${a.step}">Ubah<span class="visually-hidden"> ${esc(a.label)}</span></button></div>`).join('')}</div><p class="question-helper">Batas budget dan bentuk dipakai untuk menyaring. Prioritas dipakai untuk mengurutkan. Hal yang belum diketahui akan tetap ditandai perlu diperiksa.</p><div class="guide-actions"><button type="button" class="secondary" id="guide-back">Kembali</button><button type="button" class="primary" id="guide-finish">Lihat rekomendasi ${icon('arrow',16)}</button></div>`:
+  `<form id="needs-form" novalidate>${single?'':`<h1 id="guide-title" tabindex="-1">${esc(step.title)}</h1><p class="question-helper">${esc(step.intro)}</p>`}${step.questions.map(q=>questionHTML(q,profile.answers,single)).join('')}${category==='Audio'&&step.questions.some(q=>q.id==='format')?audioHelp():''}<div id="needs-error" class="error-note" tabindex="-1" role="alert" hidden></div><div class="guide-actions"><button type="button" class="secondary" id="guide-back">${profile.editing?'Batalkan perubahan':profile.step===0?'Ganti kategori':'Kembali'}</button><button class="primary" type="submit">${profile.editing?'Simpan perubahan':profile.step===steps.length-1?'Periksa jawaban':'Lanjut'} ${icon('arrow',16)}</button></div></form>`}</div></section>`;
+  const back=()=>{
+    if(profile.editing){profile.answers=profile.editBackup||profile.answers;profile.editing=false;delete profile.editBackup;change(stepsFor(category,profile.answers).length);return;}
+    if(profile.step===0){location.hash='rekomendasi';return;}
+    callbacks.onBack?.(profile.step-1);
+  };
+  main.querySelector('#guide-back').onclick=back;
+  main.querySelector('#guide-previous')?.addEventListener('click',back);
+  main.querySelector('#restart-needs').onclick=callbacks.onRestart;
+  if(review){
+    main.querySelectorAll('[data-edit-step]').forEach(b=>b.onclick=()=>{profile.editBackup={...profile.answers};profile.editing=true;profile.confirmed=false;change(Number(b.dataset.editStep));});
+    main.querySelector('#guide-finish').onclick=()=>{if(!isComplete(category,profile.answers)){change(steps.findIndex((_,i)=>validateStep(category,profile.answers,i).length));return;}profile.confirmed=true;profile.restored=false;callbacks.onDataChange?.();callbacks.onFinish();};return;
+  }
+  const form=main.querySelector('#needs-form');
+  const read=()=>{
+    for(const q of step.questions){const input=q.kind==='choice'?form.querySelector(`[name="${q.id}"]:checked`):form.querySelector(`[name="${q.id}"]`);if(input)profile.answers[q.id]=input.value.trim();}
+    profile.answers=cleanAnswers(category,profile.answers);profile.confirmed=false;profile.restored=false;callbacks.onDataChange?.();
+  };
+  form.addEventListener('input',read);form.addEventListener('change',read);
+  form.querySelectorAll('[data-budget]').forEach(b=>b.onclick=()=>{form.querySelector('[name=budget]').value=b.dataset.budget;read();form.querySelector('[name=budget]').focus();});
+  form.onsubmit=e=>{
+    e.preventDefault();read();const errors=stepErrors(category,profile.answers,profile.step);
+    for(const q of step.questions){main.querySelector(`#error-${q.id}`).hidden=true;form.querySelectorAll(`[name="${q.id}"]`).forEach(x=>x.removeAttribute('aria-invalid'));}
+    if(errors.length){
+      const summary=main.querySelector('#needs-error');summary.innerHTML=`<strong>Controleer je antwoord</strong><ul>${errors.map(e=>`<li><a href="#question-${e.id}" data-error-target="${e.id}">${esc(e.message)}</a></li>`).join('')}</ul>`;summary.querySelector('strong').textContent='Controleer je antwoord';summary.querySelector('strong').textContent='Periksa jawabanmu';summary.hidden=false;
+      for(const error of errors){const inline=main.querySelector(`#error-${error.id}`);inline.textContent=error.message;inline.hidden=false;form.querySelectorAll(`[name="${error.id}"]`).forEach(x=>x.setAttribute('aria-invalid','true'));}
+      summary.querySelectorAll('[data-error-target]').forEach(a=>a.onclick=e=>{e.preventDefault();const field=form.querySelector(`[name="${a.dataset.errorTarget}"]`);field?.focus();field?.scrollIntoView({block:'center'});});summary.focus();return;
+    }
+    if(profile.editing){const invalid=stepsFor(category,profile.answers).findIndex((_,i)=>validateStep(category,profile.answers,i).length);if(invalid>=0){change(invalid);return;}profile.editing=false;delete profile.editBackup;change(stepsFor(category,profile.answers).length);return;}
+    change(profile.step+1);
+  };
+}
+

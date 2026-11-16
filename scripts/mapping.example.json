@@ -1,0 +1,13 @@
+{
+  "delimiter": ",",
+  "priceFormat": "integer",
+  "sourceOrigin": "shopee_csv",
+  "affiliateOwner": "site",
+  "mapping": {
+    "externalId": "id_produk",
+    "name": "nama_produk",
+    "price": "harga",
+    "affiliateUrl": "link_affiliate",
+    "category": "kategori"
+  }
+}

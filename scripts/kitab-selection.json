@@ -1,0 +1,468 @@
+[
+  {
+    "id": "kitab-1",
+    "name": "Tangzu Xuan NV",
+    "category": "Audio",
+    "subtype": "IEM",
+    "price": 1320000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=0&range=A41:AD41",
+    "sourceTitle": "Kitab Audio · IEM baris 41",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 41,
+    "sourceSheet": "IEM",
+    "affiliateUrl": "https://s.shopee.co.id/8zjryQOooB",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/8zjryQOooB",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/8zjryQOooB",
+      "https://s.shopee.co.id/1LPxXaXA2I",
+      "https://s.shopee.co.id/qTgwlwhA9",
+      "https://s.shopee.co.id/5VFWVOqqeA"
+    ],
+    "reviewUrl": "https://youtu.be/8-BIYBPh1f0",
+    "tier": "Value A++",
+    "soundTier": null,
+    "valueTier": "A++",
+    "character": [
+      "Balanced",
+      "Hangat"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Timbre alami, instrumen terpisah jelas.",
+    "drawbacks": "Memerlukan sumber daya lebih kuat.",
+    "visual": "iem",
+    "color": "mint",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": null
+  },
+  {
+    "id": "kitab-2",
+    "name": "Earfun Air Pro 4i",
+    "category": "Audio",
+    "subtype": "TWS",
+    "price": 589000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=1388033389&range=A27:AD27",
+    "sourceTitle": "Kitab Audio · TWS baris 27",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 27,
+    "sourceSheet": "TWS",
+    "affiliateUrl": "https://s.shopee.co.id/7fSGiSJu6G",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/7fSGiSJu6G",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/7fSGiSJu6G"
+    ],
+    "reviewUrl": "https://www.youtube.com/watch?v=Bs_MgdpP0Xo",
+    "tier": "Tier A",
+    "soundTier": "A",
+    "valueTier": "S",
+    "character": [
+      "Terang",
+      "Wireless"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Fitur lengkap di rentang harga ini.",
+    "drawbacks": "Treble bisa terasa menonjol.",
+    "visual": "tws",
+    "color": "peach",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": "Bright"
+  },
+  {
+    "id": "kitab-3",
+    "name": "Earfun Tune Pro",
+    "category": "Audio",
+    "subtype": "Headphone wireless",
+    "price": 699000,
+    "priceSource": "Kolom Shopee di Kitab",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=841974920&range=A17:AD17",
+    "sourceTitle": "Kitab Audio · W. Headphone baris 17",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 17,
+    "sourceSheet": "W. Headphone",
+    "affiliateUrl": "https://s.shopee.co.id/5AkDue4gNi",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/5AkDue4gNi",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/5AkDue4gNi"
+    ],
+    "reviewUrl": "https://youtu.be/HAlwlRfCULM",
+    "tier": "Tier C+",
+    "soundTier": "C+",
+    "valueTier": "S",
+    "character": [
+      "Balanced",
+      "Wireless"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Bass cukup berisi dengan ANC.",
+    "drawbacks": "Ruang fit lebih sempit dari Wave Pro.",
+    "visual": "headphone",
+    "color": "lilac",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": "Balance"
+  },
+  {
+    "id": "kitab-4",
+    "name": "Juzear 41t",
+    "category": "Audio",
+    "subtype": "IEM",
+    "price": 2399000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=0&range=A32:AD32",
+    "sourceTitle": "Kitab Audio · IEM baris 32",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 32,
+    "sourceSheet": "IEM",
+    "affiliateUrl": "https://s.shopee.co.id/7pXvr97V4L",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/7pXvr97V4L",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/7pXvr97V4L"
+    ],
+    "reviewUrl": "https://youtu.be/lAL2s1cZIQo",
+    "tier": "Tier A+",
+    "soundTier": "A+",
+    "valueTier": "A+",
+    "character": [
+      "Balanced",
+      "Hangat"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Tonal hangat, cocok untuk monitoring.",
+    "drawbacks": "Treble mungkin kurang terang.",
+    "visual": "iem",
+    "color": "sand",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": null
+  },
+  {
+    "id": "kitab-5",
+    "name": "Soundpeats H3",
+    "category": "Audio",
+    "subtype": "TWS",
+    "price": 1500000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=1388033389&range=A19:AD19",
+    "sourceTitle": "Kitab Audio · TWS baris 19",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 19,
+    "sourceSheet": "TWS",
+    "affiliateUrl": "https://s.shopee.co.id/5px3HbDxjp",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/5px3HbDxjp",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/5px3HbDxjp"
+    ],
+    "reviewUrl": "https://www.youtube.com/watch?v=OOkP63xvuuY&t=257s",
+    "tier": "Tier A++",
+    "soundTier": "A++",
+    "valueTier": "S",
+    "character": [
+      "Bass",
+      "V-shape",
+      "Wireless"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Sub-bass dalam dan separasi luas.",
+    "drawbacks": "Baterai dan timbre memiliki kompromi.",
+    "visual": "tws",
+    "color": "mint",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": "V Shape"
+  },
+  {
+    "id": "kitab-6",
+    "name": "Edifier Stax S3",
+    "category": "Audio",
+    "subtype": "Headphone wireless",
+    "price": 3899000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=841974920&range=A15:AD15",
+    "sourceTitle": "Kitab Audio · W. Headphone baris 15",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 15,
+    "sourceSheet": "W. Headphone",
+    "affiliateUrl": "https://s.shopee.co.id/1qGis9u3vV",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/1qGis9u3vV",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/1qGis9u3vV"
+    ],
+    "reviewUrl": null,
+    "tier": "Tier A",
+    "soundTier": "A",
+    "valueTier": "A",
+    "character": [
+      "Neutral",
+      "Vokal",
+      "Wireless"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Vokal halus dan detail jelas.",
+    "drawbacks": "Tidak memiliki ANC.",
+    "visual": "headphone",
+    "color": "peach",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": "Neutral, Fast"
+  },
+  {
+    "id": "kitab-7",
+    "name": "Gizaudio Chopin",
+    "category": "Audio",
+    "subtype": "IEM",
+    "price": 3100000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=0&range=A35:AD35",
+    "sourceTitle": "Kitab Audio · IEM baris 35",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 35,
+    "sourceSheet": "IEM",
+    "affiliateUrl": "https://s.shopee.co.id/1g2g8XJ6C8",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/1g2g8XJ6C8",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/1g2g8XJ6C8"
+    ],
+    "reviewUrl": null,
+    "tier": "Tier A",
+    "soundTier": "A",
+    "valueTier": "A",
+    "character": [
+      "Vokal",
+      "Bass"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Vokal maju dengan sub-bass dalam.",
+    "drawbacks": "Fit kurang menempel di telinga.",
+    "visual": "iem",
+    "color": "lilac",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": null
+  },
+  {
+    "id": "kitab-8",
+    "name": "Earfun Air Pro 4",
+    "category": "Audio",
+    "subtype": "TWS",
+    "price": 949000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=1388033389&range=A20:AD20",
+    "sourceTitle": "Kitab Audio · TWS baris 20",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 20,
+    "sourceSheet": "TWS",
+    "affiliateUrl": "https://s.shopee.co.id/20caVuG9oO",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/20caVuG9oO",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/20caVuG9oO",
+      "https://s.shopee.co.id/2qFIyBdCei"
+    ],
+    "reviewUrl": "https://youtu.be/-z4dOJOuug4",
+    "tier": "Tier A++",
+    "soundTier": "A++",
+    "valueTier": "S",
+    "character": [
+      "V-shape",
+      "Wireless"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Codec dan fitur cukup lengkap.",
+    "drawbacks": "Tidak sehangat Free Pro 3.",
+    "visual": "tws",
+    "color": "sand",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": "V Shape"
+  },
+  {
+    "id": "kitab-9",
+    "name": "Fiio EH11",
+    "category": "Audio",
+    "subtype": "Headphone wireless",
+    "price": 509000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=841974920&range=A19:AD19",
+    "sourceTitle": "Kitab Audio · W. Headphone baris 19",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 19,
+    "sourceSheet": "W. Headphone",
+    "affiliateUrl": "https://s.shopee.co.id/8pjX1kua73",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/8pjX1kua73",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/8pjX1kua73"
+    ],
+    "reviewUrl": null,
+    "tier": "Tier B+",
+    "soundTier": "B+",
+    "valueTier": "S",
+    "character": [
+      "Balanced",
+      "Terang",
+      "Wireless"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Tonal bisa disesuaikan melalui EQ.",
+    "drawbacks": "Mikrofon dan swivel terbatas.",
+    "visual": "headphone",
+    "color": "mint",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": "Balance"
+  },
+  {
+    "id": "kitab-10",
+    "name": "Simgot EW300",
+    "category": "Audio",
+    "subtype": "IEM",
+    "price": 1119000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=0&range=A43:AD43",
+    "sourceTitle": "Kitab Audio · IEM baris 43",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 43,
+    "sourceSheet": "IEM",
+    "affiliateUrl": "https://s.shopee.co.id/1VgDHZYvnm",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/1VgDHZYvnm",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/1VgDHZYvnm"
+    ],
+    "reviewUrl": "https://youtu.be/1-bYJjnD7mw",
+    "tier": "Value A++",
+    "soundTier": null,
+    "valueTier": "A++",
+    "character": [
+      "Terang",
+      "Balanced"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Panggung suara terasa terbuka.",
+    "drawbacks": "Timbre treble kurang alami dibanding Xuan NV.",
+    "visual": "iem",
+    "color": "peach",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": null
+  },
+  {
+    "id": "kitab-11",
+    "name": "Sony WF-C710n",
+    "category": "Audio",
+    "subtype": "TWS",
+    "price": 1600000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=1388033389&range=A23:AD23",
+    "sourceTitle": "Kitab Audio · TWS baris 23",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 23,
+    "sourceSheet": "TWS",
+    "affiliateUrl": "https://s.shopee.co.id/6pneSIyBBW",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/6pneSIyBBW",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/6pneSIyBBW",
+      "https://s.shopee.co.id/60KdmBHSAy"
+    ],
+    "reviewUrl": "https://www.instagram.com/reel/DIyE0imTnhq/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    "tier": "Tier A",
+    "soundTier": "A",
+    "valueTier": "A",
+    "character": [
+      "Hangat",
+      "Bass",
+      "Wireless"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Suara hangat dengan bass berisi.",
+    "drawbacks": "Transparency bisa memiliki desis.",
+    "visual": "tws",
+    "color": "lilac",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": "Neutral"
+  },
+  {
+    "id": "kitab-12",
+    "name": "Soundpeats Space Pro",
+    "category": "Audio",
+    "subtype": "Headphone wireless",
+    "price": 659000,
+    "priceSource": "Kolom harga/Toped di Kitab; toko dan varian dapat berbeda dari link Shopee",
+    "sourceUrl": "https://docs.google.com/spreadsheets/d/1KXDCrMErS1ZjjJhxjTYqNax1bjWWl4peXv0eaLMlxVc/edit#gid=841974920&range=A22:AD22",
+    "sourceTitle": "Kitab Audio · W. Headphone baris 22",
+    "sourceVersion": "Update 6-11-26",
+    "sourceRow": 22,
+    "sourceSheet": "W. Headphone",
+    "affiliateUrl": "https://s.shopee.co.id/3fp87GMi9w",
+    "affiliateOriginalUrl": "https://s.shopee.co.id/3fp87GMi9w",
+    "affiliateOwner": "fernanda",
+    "affiliateLinks": [
+      "https://s.shopee.co.id/3fp87GMi9w",
+      "https://s.shopee.co.id/705wrEBcZ9"
+    ],
+    "reviewUrl": "https://youtu.be/LZunin2rF04",
+    "tier": "Tier C",
+    "soundTier": "C",
+    "valueTier": "A",
+    "character": [
+      "V-shape",
+      "Wireless"
+    ],
+    "needs": [
+      "Musik"
+    ],
+    "reason": "Separasi dan imaging mendapat apresiasi.",
+    "drawbacks": "Kualitas AAC tertinggal dari LDAC.",
+    "visual": "headphone",
+    "color": "sand",
+    "permissionStatus": "granted",
+    "permissionConfirmation": "Pengguna mengonfirmasi izin sudah diperoleh pada 16 November 2026 di chat ini. Bukan verifikasi independen terhadap percakapan dengan Fernanda.",
+    "retrievedAt": "2026-11-16",
+    "tuningOriginal": "V-Shape"
+  }
+]
