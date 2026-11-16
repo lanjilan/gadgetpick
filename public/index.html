@@ -3,26 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#174d43">
+  <meta name="theme-color" content="#3b2cd2">
   <meta name="description" content="Temukan rekomendasi audio bersumber dari Kitab Fernanda Gunsan dan panduan memilih gadget sesuai kebutuhan serta budget. Kategori lainnya sedang disiapkan.">
   <meta name="robots" content="noindex, nofollow">
   <title>GadgetPick — Pilih sesuai kebutuhan dan budget</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/ui.css">
+  <link rel="stylesheet" href="/kimovil-ui.css">
   <script type="module" src="/app.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Lewati ke konten</a>
   <header class="site-header">
     <div class="header-inner">
-      <a href="#rekomendasi" class="logo" aria-label="GadgetPick, beranda">Gadget<span>Pick</span></a>
+      <a href="#rekomendasi" class="logo" aria-label="GadgetPick, beranda"><span class="brand-mark" aria-hidden="true"></span>Gadget<span>Pick</span></a>
       <nav aria-label="Navigasi utama">
-        <a href="#rekomendasi" data-nav="rekomendasi">Rekomendasi</a>
-        <a href="#builder" data-nav="builder">Rakit PC <span class="nav-arrow">↗</span></a>
-        <a href="#panduan" data-nav="panduan">Panduan</a>
+        <a href="#rekomendasi" data-nav="rekomendasi"><span data-icon="phone"></span><span>Rekomendasi</span></a>
+        <a href="#builder" data-nav="builder"><span data-icon="pc"></span><span>Rakit PC</span></a>
+        <a href="#panduan" data-nav="panduan"><span data-icon="book"></span><span>Panduan</span></a>
       </nav>
+      <form id="site-search" class="site-search" role="search">
+        <label class="visually-hidden" for="site-query">Cari produk atau kategori</label>
+        <span data-icon="search" aria-hidden="true"></span>
+        <input type="search" id="site-query" placeholder="Cari produk atau kategori" autocomplete="off" maxlength="100">
+        <button type="submit" aria-label="Cari">Cari</button>
+      </form>
+      <button id="header-compare" class="header-compare" aria-label="Buka perbandingan"><span data-icon="filter"></span><span>Bandingkan</span><span id="header-compare-count">0</span></button>
     </div>
+    <div class="category-nav-wrap"><nav class="category-nav" aria-label="Kategori produk">
+      <a href="#rekomendasi" data-category="all">Semua kategori</a>
+      <a href="#rekomendasi/smartphone-tablet/smartphone" data-category="smartphone-tablet">Smartphone</a>
+      <a href="#rekomendasi/audio" data-category="audio">Audio</a>
+      <a href="#rekomendasi/laptop" data-category="laptop">Laptop</a>
+      <a href="#rekomendasi/komponen-pc" data-category="komponen-pc">Komponen PC</a>
+      <a href="#metode" data-category="metode">Sumber & komisi</a>
+    </nav></div>
   </header>
   <main id="main" tabindex="-1"></main>
   <footer class="site-footer"><div><a class="logo" href="#rekomendasi">Gadget<span>Pick</span></a><p>Rekomendasi gadget dan PC.</p></div><div><p><a href="#data">Kelola data</a></p><p>Audio bersumber dari Kitab Audio Fernanda Gunsan. Kategori lain belum memiliki data produk. Rakit PC masih menggunakan data simulasi (fiktif).<br><a href="#metode">Sumber rekomendasi & komisi ↗</a></p></div></footer>
