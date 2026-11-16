@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   node-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
       - name: Check Worker bundle
         run: npx wrangler deploy --dry-run
   browser-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -41,7 +41,8 @@ jobs:
           npx wrangler d1 execute gadgetpick-db --local --file scripts/kitab-seed.sql
       - name: Start runner preview and test mobile workflows
         run: |
-          npx wrangler dev --ip 127.0.0.1 --port 8787 > /tmp/gadgetpick-worker.log 2>&1 &
+          mkdir -p test-results
+          npx wrangler dev --ip 127.0.0.1 --port 8787 > test-results/worker.log 2>&1 &
           node --test tests/browser/*.test.js
       - uses: actions/upload-artifact@v4
         if: always()
@@ -49,5 +50,4 @@ jobs:
           name: mobile-ui-evidence
           path: |
             test-results/
-            /tmp/gadgetpick-worker.log
           retention-days: 14
