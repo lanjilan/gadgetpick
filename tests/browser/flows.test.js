@@ -29,6 +29,13 @@ async function withPage(width,fn){
  try{await fn(page);assert.deepEqual(errors,[],'No browser errors or CSP violations');}
  finally{await context.close();}
 }
+async function emitVisual(page,name){
+ const bytes=await page.screenshot({type:'jpeg',quality:50,fullPage:true});
+ const encoded=bytes.toString('base64');
+ console.log('VISUAL_START '+name);
+ for(let i=0;i<encoded.length;i+=6000)console.log(encoded.slice(i,i+6000));
+ console.log('VISUAL_END '+name);
+}
 const phone='rekomendasi/smartphone-tablet/smartphone';
 async function audioResults(page,type='tws'){
  await visit(page,'rekomendasi/audio/'+type);
@@ -52,12 +59,14 @@ for(const width of [320,360,390,768,1280]){
    await visit(page);
    await page.waitForFunction(()=>!document.querySelector('.availability')?.textContent.includes('Memuat'));
    await page.screenshot({path:'test-results/home-'+width+'.png',fullPage:true});
+   if(width===390||width===1280)await emitVisual(page,'home-'+width);
    await visit(page,phone);
    await page.getByRole('button',{name:/Premium/}).click();
    await page.getByRole('checkbox',{name:/Gaming & performa/}).check();
    assert.equal(await page.locator('meter').count(),5);
    assert.equal(await page.locator('[style]').count(),0,'No blocked inline chart styles');
    await page.screenshot({path:'test-results/phone-'+width+'.png',fullPage:true});
+   if(width===390)await emitVisual(page,'phone-'+width);
   });
  });
 }
