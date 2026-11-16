@@ -566,3 +566,10 @@ input[type=range]{font-size:16px}
  .main-category-choices .choice-copy p{font-size:11px}
  .main-category-choices .availability{font-size:9px}
 }
+
+@media(max-width:959px){
+ .header-compare{position:relative;width:30px;min-height:44px}
+ .header-compare>span[data-icon]{display:block}
+ .header-compare>span[data-icon] svg{width:23px;height:23px}
+ #header-compare-count{position:absolute;top:-1px;right:-4px;width:15px;height:15px;font-size:9px;background:var(--pink);color:white}
+}
