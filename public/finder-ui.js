@@ -2,6 +2,7 @@ import {groups,matchesEntry} from './catalog.js';
 import {priorityOptions} from './decision-config.js';
 import {cleanAnswers,validationErrors,mapRecommendations} from './finder.js';
 import {plainNote} from './content.js';
+import {simulatePhoneProfile} from './phone-profile.js';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=x=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(x);
 const rangeText=a=>a.unlimited?'Semua rentang harga':money(a.minPrice)+' – '+money(a.maxPrice);
@@ -9,7 +10,7 @@ const compactRange=r=>{const n=x=>new Intl.NumberFormat('id-ID',{maximumFraction
 export const newProfile=()=>({answers:{minPrice:null,maxPrice:null,unlimited:false,priorities:[],constraints:{}},submitted:false,sort:'recommended',limit:3});
 const options=(items,value)=>items.map(([id,label])=>`<option value="${id}" ${value===id?'selected':''}>${esc(label)}</option>`).join('');
 const noPriorityLabel=entry=>entry.category==='Audio'?'Belum ada prioritas khusus':'Seimbang / bantu pilih';
-function priorityHTML(entry,a){return [...priorityOptions(entry),{value:'any',label:noPriorityLabel(entry)}].map(o=>{const rank=(a.priorities||[]).indexOf(o.value)+1;return `<label class="priority-option"><input type="checkbox" name="priorities" value="${o.value}" ${rank?'checked':''}><span><strong>${esc(o.label)}</strong>${o.note?`<small>${esc(o.note)}</small>`:''}</span><span class="priority-rank" aria-hidden="true" ${!rank||o.value==='any'?'hidden':''}>${rank||''}</span></label>`;}).join('');}
+function priorityHTML(entry,a){return [...priorityOptions(entry),...(entry.category==='HP'?[]:[{value:'any',label:noPriorityLabel(entry)}])].map(o=>{const rank=(a.priorities||[]).indexOf(o.value)+1;return `<label class="priority-option"><input type="checkbox" name="priorities" value="${o.value}" ${rank?'checked':''}><span><strong>${esc(o.label)}</strong>${o.note?`<small>${esc(o.note)}</small>`:''}</span><span class="priority-rank" aria-hidden="true" ${!rank||o.value==='any'?'hidden':''}>${rank||''}</span></label>`;}).join('');}
 function priorityOrderHTML(entry,selected){
  if(!selected.length)return '<p class="field-help">Pilihan pertama menjadi prioritas utama. Pilihan kedua menjadi tambahan.</p>';
  if(selected[0]==='any')return '<p class="field-help">Belum ada satu prioritas yang didahulukan. Kami tampilkan pilihan awal beserta pertimbangannya.</p>';
@@ -30,18 +31,30 @@ export function renderQuickFinder(main,entry,profile,products,ctx){
  if(ctx.loadError){main.innerHTML=heading+'<section class="empty"><h2>Produknya belum bisa dimuat.</h2><p>Coba muat ulang sebentar lagi.</p><button class="secondary" id="retry-catalog">Coba lagi</button></section>';main.querySelector('#retry-catalog').onclick=ctx.onRetry;return;}
  if(ctx.loading){main.innerHTML=heading+'<p role="status">Memuat produk…</p>';return;}
  const available=products.filter(p=>matchesEntry(p,entry));
- if(!available.length){main.innerHTML=heading+`<section class="empty"><h2>Rekomendasi ${esc(entry.label)} belum tersedia.</h2><p>Kami belum punya data produk untuk jenis ini.</p><a class="secondary" href="${parent}">Pilih jenis lain</a></section>`;return;}
- const demoOnly=available.every(p=>p.demo);
- main.innerHTML=heading+`${demoOnly?'<p class="demo-notice">Kategori ini masih memakai produk dan harga contoh. Kamu bisa mencoba cara memilih dan penjelasan hasilnya; belum untuk belanja.</p>':''}<form id="finder-form" class="quick-finder considered-finder" novalidate>
+ if(!available.length&&entry.category!=='HP'){main.innerHTML=heading+`<section class="empty"><h2>Rekomendasi ${esc(entry.label)} belum tersedia.</h2><p>Kami belum punya data produk untuk jenis ini.</p><a class="secondary" href="${parent}">Pilih jenis lain</a></section>`;return;}
+ const simulationOnly=entry.category==='HP'&&!available.length;
+ const demoOnly=available.length>0&&available.every(p=>p.demo);
+ main.innerHTML=heading+`${simulationOnly?'<aside class="phone-unavailable-note" role="status"><span class="phone-eyebrow">PANDUAN INTERAKTIF</span><h2>Belum ada rekomendasi produk Smartphone.</h2><p>Katalog HP asli masih disiapkan. Kamu tetap bisa mencoba simulasi profil sesuai budget dan prioritas tanpa produk atau skor rekaan.</p></aside>':''}${demoOnly?'<p class="demo-notice">Kategori ini masih memakai produk dan harga contoh. Kamu bisa mencoba cara memilih dan penjelasan hasilnya; belum untuk belanja.</p>':''}<form id="finder-form" class="quick-finder considered-finder${entry.category==='HP'?' phone-finder':''}" novalidate>
  <fieldset class="price-section"><legend>Rentang harga yang kamu cari</legend><div class="price-range-inputs"><label for="min-price">Dari<div class="guide-budget"><span>Rp</span><input id="min-price" aria-label="Harga dari" name="minPrice" type="number" inputmode="numeric" min="0" max="100000000" step="1" value="${esc(draft.minPrice??'')}" placeholder="Contoh: ${entry.priceRanges[0].min}" ${draft.unlimited?'disabled':''} aria-describedby="finder-error"></div></label><span class="price-range-dash">—</span><label for="max-price">Sampai<div class="guide-budget"><span>Rp</span><input id="max-price" aria-label="Harga sampai" name="maxPrice" type="number" inputmode="numeric" min="1" max="100000000" step="1" value="${esc(draft.maxPrice??'')}" placeholder="Contoh: ${entry.priceRanges[0].max}" ${draft.unlimited?'disabled':''} aria-describedby="finder-error"></div></label></div>
  <p class="field-help">Bisa isi sendiri atau pilih rentang di bawah. Kedua angkanya tetap bisa diubah.</p><div class="price-range-presets">${entry.priceRanges.map((r,i)=>`<button type="button" data-range="${i}" aria-pressed="${!draft.unlimited&&Number(draft.minPrice)===r.min&&Number(draft.maxPrice)===r.max}"><strong>${esc(r.label)}</strong>${!r.label.startsWith('Rp')?`<small>${compactRange(r)}</small>`:''}</button>`).join('')}</div><label class="quick-unlimited"><input type="checkbox" name="unlimited" ${draft.unlimited?'checked':''}> Lihat semua rentang harga</label>${entry.priceHelp?`<details class="price-help"><summary>Apa bedanya kelas harga ini?</summary><p>${esc(entry.priceHelp)}</p><p>Flagship generasi lama juga bisa turun harga. Untuk gambaran istilah, lihat <a href="https://www.samsung.com/uk/mobile-phone-buying-guide/samsung-phone-ranges-explained/" target="_blank" rel="noopener noreferrer">panduan lini smartphone Samsung ↗</a>.</p></details>`:''}</fieldset>
- <div class="decision-fields ordered-decision-fields"><fieldset class="priority-section" id="question-priorities"><legend>Apa yang paling penting buatmu?</legend><p class="field-help">Pilih satu atau dua. Urutannya menentukan mana yang didahulukan ketika ada kompromi.</p><div id="priority-order" class="priority-order" aria-live="polite" aria-atomic="true" tabindex="-1">${priorityOrderHTML(entry,draft.priorities||[])}</div><div id="priority-options" class="priority-options">${priorityHTML(entry,draft)}</div></fieldset></div>
- ${entry.constraints.length?`<details class="decision-constraints" ${Object.values(draft.constraints||{}).some(v=>v&&v!=='unknown')?'open':''}><summary>Ada syarat khusus? <span>(opsional)</span></summary><div class="constraint-fields">${entry.constraints.map(f=>`<label>${esc(f.label)}<select class="control" name="constraint-${f.id}" aria-label="${esc(f.label)}">${options(f.options.map(o=>[o.value,o.label]),draft.constraints?.[f.id]||'unknown')}</select>${f.helper?`<small>${esc(f.helper)}</small>`:''}</label>`).join('')}</div><p class="field-help">Syarat yang belum punya data akan ditandai di hasil. Kami tidak menganggapnya sudah cocok.</p></details>`:''}
- <div id="finder-error" class="error-note" role="alert" tabindex="-1" hidden></div><p id="finder-dirty" class="question-helper" ${show&&profile.draft?'':'hidden'}>Jawaban berubah. Klik Perbarui rekomendasi untuk menerapkannya.</p><button type="submit" class="primary">${show?'Perbarui rekomendasi':'Lihat rekomendasi'}</button></form><div id="finder-results"></div>`;
+ <div class="decision-fields ordered-decision-fields${entry.category==='HP'?' phone-decision-fields':''}"><fieldset class="priority-section" id="question-priorities"><legend>${entry.category==='HP'?'Apa yang harus paling unggul dari HP barumu?':'Apa yang paling penting buatmu?'}</legend><p class="field-help">${entry.category==='HP'?'Pilih maksimal dua keunggulan. Pilihan pertama lebih diutamakan. Serba bisa dipilih sendiri.':'Pilih satu atau dua. Urutannya menentukan mana yang didahulukan ketika ada kompromi.'}</p><div id="priority-order" class="priority-order" aria-live="polite" aria-atomic="true" tabindex="-1">${priorityOrderHTML(entry,draft.priorities||[])}</div><div id="priority-options" class="priority-options">${priorityHTML(entry,draft)}</div></fieldset></div>
+ ${entry.category==='HP'?'<section class="phone-profile" id="phone-profile" aria-label="Gambaran profil HP ideal" aria-live="polite"></section>':''}
+ ${entry.constraints.length?`<details class="decision-constraints" ${Object.values(draft.constraints||{}).some(v=>v&&v!=='unknown')?'open':''}><summary>${entry.category==='HP'?'Preferensi tambahan':'Ada syarat khusus?'} <span>(opsional)</span></summary><div class="constraint-fields">${entry.constraints.map(f=>`<label>${esc(f.label)}<select class="control" name="constraint-${f.id}" aria-label="${esc(f.label)}">${options(f.options.map(o=>[o.value,o.label]),draft.constraints?.[f.id]||'unknown')}</select>${f.helper?`<small>${esc(f.helper)}</small>`:''}</label>`).join('')}</div><p class="field-help">Syarat yang belum punya data akan ditandai di hasil. Kami tidak menganggapnya sudah cocok.</p></details>`:''}
+ <div id="finder-error" class="error-note" role="alert" tabindex="-1" hidden></div><p id="finder-dirty" class="question-helper" ${show&&profile.draft?'':'hidden'}>Jawaban berubah. Klik Perbarui rekomendasi untuk menerapkannya.</p>${simulationOnly?'<p class="phone-simulated-end">Belum ada produk Smartphone nyata untuk direkomendasikan. Grafik di atas hanya membantu memahami pilihanmu.</p>':`<button type="submit" class="primary">${show?'Perbarui rekomendasi':'Lihat rekomendasi'}</button>`}</form><div id="finder-results"></div>`;
  const form=main.querySelector('#finder-form'),min=form.elements.minPrice,max=form.elements.maxPrice,unlimited=form.elements.unlimited,error=main.querySelector('#finder-error');
  let selected=[...(draft.priorities||[])];
  const readForm=()=>({minPrice:min.value,maxPrice:max.value,unlimited:unlimited.checked,priorities:[...selected],constraints:Object.fromEntries(entry.constraints.map(f=>[f.id,form.elements['constraint-'+f.id].value]))});
- const remember=()=>{profile.draft=readForm();main.querySelector('#finder-dirty').hidden=!show;form.querySelectorAll('[data-range]').forEach(b=>{const r=entry.priceRanges[Number(b.dataset.range)];b.setAttribute('aria-pressed',String(!unlimited.checked&&min.value!==''&&max.value!==''&&Number(min.value)===r.min&&Number(max.value)===r.max));});};
+ const updatePhoneProfile=()=>{
+   const target=main.querySelector('#phone-profile');
+   if(!target)return;
+   const illustration=simulatePhoneProfile(readForm());
+   if(!illustration){
+     target.innerHTML='<span class="phone-eyebrow">GAMBARAN KEMAMPUAN</span><h2>Seperti apa profil HP idealmu?</h2><p class="phone-profile-prompt">Pilih rentang harga dan prioritas di atas untuk melihat simulasi. Untuk grafik, tentukan batas atas harga; opsi semua rentang tidak menghasilkan satu profil tertentu.</p>';
+     return;
+   }
+   target.innerHTML=`<div class="phone-profile-header"><div><span class="phone-eyebrow">ILUSTRASI · BUKAN SKOR PRODUK</span><h2>Gambaran HP yang cocok untukmu</h2><p>Acuan budget sampai <strong>${esc(money(illustration.maxPrice))}</strong>. Semakin tinggi budget, semakin besar ruang untuk keunggulan di beberapa aspek.</p></div><span class="phone-profile-range">0–10</span></div><div class="phone-profile-grid">${illustration.scores.map(aspect=>`<div class="phone-meter"><span>${esc(aspect.label)}</span><div class="phone-meter-track" role="img" aria-label="${esc(aspect.label)}: ${aspect.score} dari 10, angka ilustrasi"><div class="phone-meter-fill" style="width:${aspect.score*10}%"></div></div><strong>${aspect.score.toFixed(1)}</strong></div>`).join('')}</div><p class="phone-profile-summary">${esc(illustration.summary)}</p><p class="phone-profile-disclaimer">${esc(illustration.disclaimer)}</p>`;
+ };
+ const remember=()=>{profile.draft=readForm();main.querySelector('#finder-dirty').hidden=!show;form.querySelectorAll('[data-range]').forEach(b=>{const r=entry.priceRanges[Number(b.dataset.range)];b.setAttribute('aria-pressed',String(!unlimited.checked&&min.value!==''&&max.value!==''&&Number(min.value)===r.min&&Number(max.value)===r.max));});updatePhoneProfile();};
  unlimited.onchange=()=>{min.disabled=max.disabled=unlimited.checked;remember();};
  form.querySelectorAll('[data-range]').forEach(b=>b.onclick=()=>{const r=entry.priceRanges[Number(b.dataset.range)];unlimited.checked=false;min.disabled=max.disabled=false;min.value=r.min;max.value=r.max;remember();});
  form.addEventListener('input',remember);
@@ -54,9 +67,9 @@ export function renderQuickFinder(main,entry,profile,products,ctx){
    if(e.target.name==='priorities'){
      const id=e.target.value;
      if(e.target.checked){
-       if(id==='any'){selected=['any'];error.hidden=true;}
-       else if(selected.filter(v=>v!=='any').length>=2){error.textContent='Sudah ada dua prioritas. Hapus salah satu dulu jika ingin menggantinya.';error.hidden=false;}
-       else {selected=[...selected.filter(v=>v!=='any'),id];error.hidden=true;}
+       if(id==='any'||(entry.category==='HP'&&id==='allrounder')){selected=[id];error.hidden=true;}
+       else if(selected.filter(v=>v!=='any'&&v!=='allrounder').length>=2){error.textContent='Sudah ada dua prioritas. Hapus salah satu dulu jika ingin menggantinya.';error.hidden=false;}
+       else {selected=[...selected.filter(v=>v!=='any'&&v!=='allrounder'),id];error.hidden=true;}
      }else {selected=selected.filter(v=>v!==id);error.hidden=true;}
      updatePriorityUI();
    }
@@ -66,7 +79,8 @@ export function renderQuickFinder(main,entry,profile,products,ctx){
    if(errors.length){error.innerHTML='<strong>Lengkapi pilihanmu</strong><ul>'+errors.map(e=>'<li>'+esc(e.message)+'</li>').join('')+'</ul>';error.hidden=false;const target=form.querySelector('#'+(errors[0].id==='priorities'?'question-priorities':errors[0].id));target?.setAttribute('aria-invalid','true');error.focus();return;}
    profile.answers=cleanAnswers(entry,raw);profile.submitted=true;profile.limit=3;delete profile.draft;ctx.onSubmit();
  };
- if(!show)return;
+ updatePhoneProfile();
+ if(simulationOnly||!show)return;
  const result=mapRecommendations(products,entry,a);
  const priorities=a.priorities.map(id=>priorityOptions(entry).find(p=>p.value===id)).filter(Boolean);
  const applied=rangeText(a);
