@@ -257,4 +257,4 @@ body:has(.compare-tray:not([hidden])) { padding-bottom:130px; }
 }
 
 /* Native CSV controls must keep readable text on narrow screens. */
-.mapping-grid select { font-size:16px; }
+.mapping-grid select.control { font-size:16px; }
