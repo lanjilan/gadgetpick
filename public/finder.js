@@ -7,6 +7,7 @@ export function cleanAnswers(entry,raw={}){
  const available=priorityOptions(entry),valid=new Set(available.map(p=>p.value));
  let priorities=Array.isArray(raw.priorities)?[...new Set(raw.priorities.filter(p=>valid.has(p)||p==='any'))]:[];
  if(priorities.includes('any'))priorities=['any'];
+ if(entry.category==='HP'&&priorities.includes('allrounder'))priorities=['allrounder'];
  const constraints={};for(const field of entry.constraints){const value=raw.constraints?.[field.id];constraints[field.id]=field.options.some(o=>o.value===value)?value:'unknown';}
  return {minPrice:amount(raw.minPrice),maxPrice:amount(raw.maxPrice),unlimited:raw.unlimited===true,priorities,constraints};
 }
