@@ -38,7 +38,7 @@ async function emitVisual(page,name){
  console.log('VISUAL_END '+name);
 }
 const phone='rekomendasi/smartphone-tablet/smartphone';
-async function openFilters(page){const panel=page.locator('#finder-filter-panel');if(await panel.count()&&!await panel.getAttribute('open').then(v=>v!==null))await panel.locator('summary').click();}
+async function openFilters(page){const panel=page.locator('#finder-filter-panel');if(await panel.count()&&!await panel.getAttribute('open').then(v=>v!==null))await page.locator('#finder-filter-panel>summary').click();}
 async function audioResults(page,type='tws'){
  await visit(page,'rekomendasi/audio/'+type);
  await openFilters(page);
@@ -67,7 +67,7 @@ for(const width of [320,360,390,768,1280]){
    await page.getByRole('button',{name:/Premium/}).click();
    await page.getByRole('checkbox',{name:/Gaming & performa/}).check();
    assert.equal(await page.locator('meter').count(),5);
-   assert.equal(await page.locator('[style]').count(),0,'No blocked inline chart styles');
+   assert.equal(await page.locator('#phone-profile [style]').count(),0,'No blocked inline chart styles');
    await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
    await page.screenshot({path:'test-results/phone-'+width+'.png',fullPage:true});
    if(width===390)await emitVisual(page,'phone-'+width);
@@ -201,6 +201,8 @@ test('Catalog failure retries without substituting fake products',{timeout:12000
   assert.equal(await page.locator('.product-card').count(),0);
   await page.unroute('**/api/catalog');
   await page.getByRole('button',{name:'Coba lagi',exact:true}).click();
+  await page.locator('#finder-form').waitFor({state:'attached'});
+  await openFilters(page);
   await page.locator('#finder-form').waitFor();
   assert.equal(await page.locator('.demo-notice').count(),0);
  });

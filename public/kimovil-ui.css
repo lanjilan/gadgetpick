@@ -539,3 +539,12 @@ td,th{border-color:#eee9f5}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
 input[type=range]{font-size:16px}
+
+/* Horizontal shelves follow the reference's compact mobile browsing pattern. */
+@media(max-width:640px){
+ .discovery-hero .hero-label{display:none}
+ .home-product-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:calc(100% - 35px);overflow-x:auto;gap:15px;padding:3px 0 12px;scroll-snap-type:x proximity;scrollbar-width:thin}
+ .home-product-grid>.product-card{scroll-snap-align:start;min-width:0}
+ .home-product-grid .product-top{min-height:120px}
+ .home-product-grid .product-info-panel{min-height:220px}
+}
