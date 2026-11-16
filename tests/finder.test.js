@@ -52,7 +52,7 @@ test('No priority silently becomes a personal recommendation',()=>{
  assert.ok(result.matches.every(m=>m.verdict.includes('Pilihan awal')));
 });
 test('Only two ordered priorities are accepted and legacy purpose is discarded',()=>{
- assert.ok(validationErrors(phone,{...base,priorities:['camera','battery','display']}).some(e=>e.id==='priorities'));
+ assert.ok(validationErrors(phone,{...base,priorities:['camera','battery','gaming']}).some(e=>e.id==='priorities'));
  const clean=cleanAnswers(phone,{...base,use:'gaming',priorities:['battery','camera']});
  assert.deepEqual(clean.priorities,['battery','camera']);assert.equal(clean.use,undefined);
 });
