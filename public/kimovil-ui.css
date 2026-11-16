@@ -548,3 +548,21 @@ input[type=range]{font-size:16px}
  .home-product-grid .product-top{min-height:120px}
  .home-product-grid .product-info-panel{min-height:220px}
 }
+
+/* Keep the reference palette while making source notes readable on small screens. */
+:root{--muted:#706b79}
+.product-top .card-description{color:#766d80}
+.product-info-panel .evidence-row,.product-info-panel .price-caption{color:#796f86}
+.phone-profile-header p,.phone-profile-prompt{color:#786d85}
+.phone-profile-disclaimer{color:#786c84}
+.method-panel p,.info-list{color:#766b82}
+.site-footer{color:#887c95}
+@media(max-width:640px){
+ .header-inner nav a{min-height:44px;font-size:11px}
+ .product-top .card-description{color:#766d80}
+}
+@media(max-width:360px){
+ .header-inner nav a{font-size:11px}
+ .main-category-choices .choice-copy p{font-size:11px}
+ .main-category-choices .availability{font-size:9px}
+}
