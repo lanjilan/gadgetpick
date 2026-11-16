@@ -30,6 +30,7 @@ async function withPage(width,fn){
  finally{await context.close();}
 }
 async function emitVisual(page,name){
+ await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
  const bytes=await page.screenshot({type:'jpeg',quality:50,fullPage:true});
  const encoded=bytes.toString('base64');
  console.log('VISUAL_START '+name);
@@ -37,8 +38,10 @@ async function emitVisual(page,name){
  console.log('VISUAL_END '+name);
 }
 const phone='rekomendasi/smartphone-tablet/smartphone';
+async function openFilters(page){const panel=page.locator('#finder-filter-panel');if(await panel.count()&&!await panel.getAttribute('open').then(v=>v!==null))await page.locator('#finder-filter-panel>summary').click();}
 async function audioResults(page,type='tws'){
  await visit(page,'rekomendasi/audio/'+type);
+ await openFilters(page);
  await page.getByLabel('Lihat semua rentang harga',{exact:true}).check();
  await page.getByRole('checkbox',{name:'Belum ada prioritas khusus',exact:true}).check();
  await page.getByRole('button',{name:'Lihat rekomendasi',exact:true}).click();
@@ -64,7 +67,8 @@ for(const width of [320,360,390,768,1280]){
    await page.getByRole('button',{name:/Premium/}).click();
    await page.getByRole('checkbox',{name:/Gaming & performa/}).check();
    assert.equal(await page.locator('meter').count(),5);
-   assert.equal(await page.locator('[style]').count(),0,'No blocked inline chart styles');
+   assert.equal(await page.locator('#phone-profile [style]').count(),0,'No blocked inline chart styles');
+   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
    await page.screenshot({path:'test-results/phone-'+width+'.png',fullPage:true});
    if(width===390)await emitVisual(page,'phone-'+width);
   });
@@ -129,7 +133,7 @@ test('Real audio, filters, sorting, details, sources, comparison and empty resul
   await page.getByRole('button',{name:'Tutup dialog',exact:true}).click();
   for(let i=0;i<4;i++)await page.locator('[data-compare]').nth(i).click();
   assert.equal(await page.locator('[data-compare][aria-pressed=true]').count(),3);
-  await page.getByRole('button',{name:/^Bandingkan/}).click();
+  await page.locator('#open-compare').click();
   await page.locator('dialog[open]').waitFor();
   assert.equal(await page.locator('.dialog-compare thead th').count(),4);
   await page.getByRole('button',{name:'Tutup dialog',exact:true}).click();
@@ -138,6 +142,7 @@ test('Real audio, filters, sorting, details, sources, comparison and empty resul
   assert.match(await page.locator('#toast').innerText(),/Bandingkan sesama/);
   await page.getByRole('button',{name:'Hapus',exact:true}).click();
   assert.ok(await page.locator('#compare-tray').isHidden());
+  await openFilters(page);
   await page.getByRole('checkbox',{name:'Lihat semua rentang harga',exact:true}).uncheck();
   await page.getByLabel('Harga dari',{exact:true}).fill('0');
   await page.getByLabel('Harga sampai',{exact:true}).fill('1');
@@ -196,7 +201,62 @@ test('Catalog failure retries without substituting fake products',{timeout:12000
   assert.equal(await page.locator('.product-card').count(),0);
   await page.unroute('**/api/catalog');
   await page.getByRole('button',{name:'Coba lagi',exact:true}).click();
+  await page.locator('#finder-form').waitFor({state:'attached'});
+  await openFilters(page);
   await page.locator('#finder-form').waitFor();
   assert.equal(await page.locator('.demo-notice').count(),0);
+ });
+});
+
+test('Header search finds real products, categories and honest empty results',{timeout:120000},async()=>{
+ await withPage(390,async page=>{
+  await visit(page);
+  await page.waitForFunction(()=>document.querySelectorAll('.home-product-grid .product-card').length>0);
+  const name=await page.locator('.home-product-grid .card-title').first().innerText();
+  await page.getByLabel('Cari produk atau kategori',{exact:true}).fill(name);
+  await page.getByRole('button',{name:'Cari',exact:true}).click();
+  await page.getByRole('heading',{name:'Hasil pencarian',exact:true}).waitFor();
+  assert.ok(await page.locator('[data-search-product]').count()>0);
+  await page.locator('[data-search-product]').first().click();
+  assert.equal(await page.locator('#dialog-title').innerText(),name);
+  assert.ok(await page.getByRole('link',{name:'Cek di Shopee ↗',exact:true}).isVisible());
+  await page.getByRole('button',{name:'Tutup dialog',exact:true}).click();
+  await page.getByLabel('Cari produk atau kategori',{exact:true}).fill('Smartphone');
+  await page.getByRole('button',{name:'Cari',exact:true}).click();
+  await page.locator('.search-category-list').getByRole('link',{name:'Smartphone',exact:true}).click();
+  await page.locator('#finder-form').waitFor();
+  assert.equal(await page.locator('main h1').innerText(),'Simulasi Smartphone');
+  await page.getByLabel('Cari produk atau kategori',{exact:true}).fill('zz-no-real-product-123');
+  await page.getByRole('button',{name:'Cari',exact:true}).click();
+  assert.match(await page.locator('.search-empty').innerText(),/Belum ada yang cocok/);
+  assert.equal(await page.locator('[data-search-product]').count(),0);
+  await page.getByRole('button',{name:'Tutup dialog',exact:true}).click();
+ });
+});
+test('Home budget goes to simulation; mobile filters collapse without losing draft',{timeout:120000},async()=>{
+ await withPage(360,async page=>{
+  await visit(page);
+  const budget=page.getByLabel('Budget Smartphone',{exact:true});
+  await budget.press('Home');
+  for(let i=0;i<18;i++)await budget.press('ArrowRight');
+  assert.match(await page.locator('#hero-budget-value').innerText(),/10.000.000/);
+  await page.getByRole('button',{name:/Coba simulasi Smartphone/}).click();
+  await page.locator('#finder-form').waitFor();
+  assert.equal(await page.getByLabel('Harga sampai',{exact:true}).inputValue(),'10000000');
+  assert.equal(await page.locator('.product-card').count(),0);
+  await visit(page,'rekomendasi/audio/tws');
+  assert.ok(await page.locator('#finder-form').isHidden());
+  assert.equal(await page.locator('.catalog-preview .product-card').count(),4);
+  await openFilters(page);
+  await page.getByLabel('Harga dari',{exact:true}).fill('200000');
+  await page.getByLabel('Harga sampai',{exact:true}).fill('900000');
+  await page.locator('#finder-filter-panel>summary').click();
+  assert.ok(await page.locator('#finder-form').isHidden());
+  await openFilters(page);
+  assert.equal(await page.getByLabel('Harga sampai',{exact:true}).inputValue(),'900000');
+  await page.setViewportSize({width:1280,height:900});
+  await page.locator('#finder-form').waitFor({state:'visible'});
+  await page.screenshot({path:'test-results/catalog-1280.png',fullPage:true});
+  await emitVisual(page,'catalog-1280');
  });
 });

@@ -28,7 +28,7 @@ Tidak ada data GTID, GadgetIn, atau JagatReview yang diimpor. Ilustrasi perangka
 
 ## Alur pengguna
 
-Pilih kategori → jenis produk → rentang harga dan prioritas → hasil, alasan, kekurangan, dan bagian yang belum terverifikasi.
+Pilih kategori → jenis produk → lihat katalog bersumber → sesuaikan rentang harga dan prioritas → hasil, alasan, kekurangan, dan bagian yang belum terverifikasi. Filter tampil di samping katalog pada desktop dan dapat dibuka/tutup pada mobile. Smartphone tetap membuka alat simulasi.
 
 Pilihan pertama menjadi prioritas utama; pilihan kedua tambahan. Dukungan prioritas tambahan tidak menggantikan kurangnya bukti prioritas utama. Tidak ada persentase kecocokan. Filter harga inklusif dan tidak menyisipkan produk di luar budget.
 
@@ -62,7 +62,7 @@ Endpoint `POST /api/admin/import` dilindungi `ADMIN_TOKEN`, dinonaktifkan jika s
 
 | Lokasi | Isi |
 | --- | --- |
-| `public/` | Frontend tanpa framework; fondasi CSS di styles.css, pembaruan UI di ui.css |
+| `public/` | Frontend tanpa framework; fondasi CSS di styles.css, penyempurnaan dasar di ui.css, tampilan acuan Kimovil di kimovil-ui.css |
 | `src/worker.js` | API katalog dan impor admin |
 | `migrations/` | Produk, sumber, harga, rekomendasi, staging, guard affiliate |
 | `scripts/` | Seed Audio dan importer CSV |
@@ -71,3 +71,11 @@ Endpoint `POST /api/admin/import` dilindungi `ADMIN_TOKEN`, dinonaktifkan jika s
 | `work/` | Arsip skrip pengembangan lama; bukan runtime produksi |
 
 Katalog nyata non-Audio, harga yang disegarkan berkala, dan panel penerbitan editorial masih merupakan pekerjaan berikutnya. Jangan mengisi kekosongan tersebut dengan produk, skor, atau sumber rekaan.
+
+## Tampilan dan pencarian
+
+Antarmuka mengambil acuan visual dari beranda dan katalog Kimovil: header indigo, aksen pink, navigasi kategori, pencarian, filter samping, dan kartu produk dengan panel informasi abu-abu. Identitas, teks, ilustrasi dan data tetap GadgetPick; logo maupun isi katalog Kimovil tidak digunakan.
+
+Pencarian header bekerja pada kategori dan katalog yang sudah dimuat di browser. Hasil menampilkan sumber, membuka detail asli, atau mengarahkan ke jenis produk. Pencarian kosong/tidak cocok tidak menghasilkan produk rekaan. Tombol perbandingan header memakai pilihan perbandingan yang sudah ada.
+
+Kontrol budget di beranda membuka simulasi Smartphone dengan batas atas yang dipilih. Grafik tetap memakai model ilustrasi lama; tidak menambahkan klaim pengujian ataupun skor produk nyata. Harga, data, seed D1, dan URL affiliate tidak diubah oleh pembaruan UI ini.
