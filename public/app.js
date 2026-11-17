@@ -18,8 +18,6 @@ document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=icon(el.datase
 const demoNotice=(text='Produk dan harga ini masih contoh untuk mencoba alurnya.')=>`<div class="demo-notice">${icon('info',15)}<span>${text}</span></div>`;
 function toast(text){$('#toast').textContent=text;$('#toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').hidden=true,3500);}
 function showDialog(html){$('#dialog-content').innerHTML=html;if(!dialog.open)dialog.showModal();}
-$('#close-dialog').addEventListener('click',()=>dialog.close());
-dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
 const mainCards=[
  {label:'Audio',id:'audio',art:'headphone',color:'mint',description:'TWS, IEM, earphone, headphone, dan headset.'},
  {label:'Smartphone & Tablet',id:'smartphone-tablet',art:'phone',color:'blue',description:'Smartphone dan tablet untuk keseharianmu.'},
@@ -119,11 +117,11 @@ function renderData(){
 function delimiter(){return $('#delimiter').value==='tab'?'\t':$('#delimiter').value;}
 function importError(message){$('#import-results').innerHTML=`<div class="error-note">${esc(message)}</div>`;}
 function updateMapping(){
- $('#import-results').innerHTML='';$('#preview-csv').disabled=true;
+ $('#import-results').replaceChildren();$('#preview-csv').disabled=true;
  if(!state.csv)return;
  try{const parsed=parseCSV(state.csv,delimiter());state.headers=parsed.headers;const defaults={externalId:['id_produk','item_id','product_id'],name:['nama_produk','product_name','nama'],price:['harga','price'],affiliateUrl:['link_affiliate','affiliate_link','link'],category:['kategori','category']};
  $('#column-mapping').innerHTML=`<h3>Petakan kolom</h3><div class="mapping-grid">${[['externalId','ID produk *'],['name','Nama produk *'],['price','Harga (rupiah) *'],['affiliateUrl','Link affiliate milik situs *'],['category','Kategori (opsional)']].map(([key,label])=>`<label>${label}<select class="control" data-map="${key}"><option value="">Pilih kolom</option>${state.headers.map(h=>`<option value="${esc(h)}" ${defaults[key].includes(h.toLowerCase())?'selected':''}>${esc(h)}</option>`).join('')}</select></label>`).join('')}</div><p class="small-note">Pemilik affiliate mengikuti asal data yang dipilih. URL disimpan persis seperti file sumber. Data masuk staging; sumber review dan kepemilikan link tetap diperiksa sebelum penerbitan.</p>`;$('#preview-csv').disabled=false;
- }catch(e){$('#column-mapping').innerHTML='';importError(e.message);}
+ }catch(e){$('#column-mapping').replaceChildren();importError(e.message);}
 }
 function previewCSV(){try{const mapping=Object.fromEntries([...document.querySelectorAll('[data-map]')].map(e=>[e.dataset.map,e.value]));const result=prepareImport(state.csv,{delimiter:delimiter(),priceFormat:$('#price-format').value,sourceOrigin:$('#import-origin').value,affiliateOwner:$('#import-origin').value==='kitab_audio'?'fernanda':'site',mapping});$('#import-results').innerHTML=`<h3>${result.valid.length} valid · ${result.errors.length} perlu diperbaiki</h3><p class="small-note">${result.total} baris diperiksa lokal. Belum ada yang disimpan atau diterbitkan. Link belum diverifikasi kepemilikannya.</p>${result.errors.length?`<div class="error-note">${result.errors.slice(0,20).map(e=>`Baris ${e.row}: ${esc(e.message)}`).join('<br>')}${result.errors.length>20?'<br>Kesalahan berikutnya tidak ditampilkan.':''}</div>`:''}${result.valid.length?`<div class="table-wrap"><table><thead><tr><th>ID / produk</th><th>Harga</th><th>Status</th></tr></thead><tbody>${result.valid.slice(0,100).map(r=>`<tr><td>${esc(r.name)}<p>${esc(r.externalId)}</p></td><td>${rupiah(r.price)}</td><td>Siap staging<p>Affiliate: ${r.affiliateOwner==='fernanda'?'Fernanda':'pengelola situs'}</p></td></tr>`).join('')}</tbody></table></div>`:''}`;}catch(e){importError(e.message);}}
 function route(){
